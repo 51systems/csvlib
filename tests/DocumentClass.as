@@ -4,7 +4,7 @@
 	import flash.events.Event
 	import flash.net.URLRequest
 	import flash.display.Sprite
-	import com.shortybmc.data.CSV;
+	import com.shortybmc.data.parser.CSV;
 	
 	public class DocumentClass extends Sprite
 	{
