@@ -46,6 +46,8 @@ package com.shortybmc.data.parser
 		private var FieldEnclosureToken : String
 		private var RecordsetDelimiter	: String
 		
+		private var Header : Array
+		
 		
 		/**
 		 *   TODO Constructor description ...
