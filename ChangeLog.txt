@@ -3,7 +3,5 @@ csvlib changelog
 
 Date			Log
 --------------------------------------------------------------
-27.08.2007		final release 1.0.0
-
-30.08.2007		- new minor version 1.1.0
-					header support added
+27.08.2007		1.0.0 final release 
+30.08.2007		1.1.0 header support added
