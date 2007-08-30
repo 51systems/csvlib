@@ -46,7 +46,9 @@ package com.shortybmc.data.parser
 		private var FieldEnclosureToken : String
 		private var RecordsetDelimiter	: String
 		
-		private var Header : Array
+		private var Header 				: Array
+		private var EmbededHeader 		: Boolean
+		private var HeaderOverwrite 	: Boolean
 		
 		
 		/**
@@ -65,12 +67,17 @@ package com.shortybmc.data.parser
 			fieldEnclosureToken = '"'
 			recordsetDelimiter 	= '\r'
 			
+			header = new Array()
+			embededHeader = true
+			headerOverwrite = false
+			
 			if( request )
 				load( request )
 			this.dataFormat = URLLoaderDataFormat.TEXT
 			addEventListener( Event.COMPLETE, decode )
 			
 		}
+		
 		
 		// -> getter
 		
@@ -116,6 +123,71 @@ package com.shortybmc.data.parser
 			return RecordsetDelimiter
 		}
 		
+		/**
+		 *   TODO Getter description ...
+		 * 
+		 *   @param no
+		 *   @return Boolean with embeded header state
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function get embededHeader() : Boolean
+		{
+			return EmbededHeader
+		}
+		
+		/**
+		 *   TODO Getter description ...
+		 * 
+		 *   @param no
+		 *   @return Boolean with header overwrite state
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function get headerOverwrite()  : Boolean 
+		{
+			return HeaderOverwrite
+		}
+		
+		/**
+		 *   TODO Getter description ...
+		 * 
+		 *   @deprecated yes
+		 *   @param no
+		 *   @return Boolean true if header has values, false if not
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function get headerHasValues () : Boolean
+		{
+			var check : Boolean
+			try {
+				if ( Header.length > 0 ) check = true
+			} catch ( e : Error ) {
+				check = false
+			} finally {
+				return check
+			}
+		}
+		
+		/**
+		 *   TODO Getter description ...
+		 * 
+		 *   @param no
+		 *   @return Array with current header
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function get header() : Array 
+		{
+			return Header
+		}
+		
+		
 		// -> setter
 		
 		/**
@@ -160,10 +232,100 @@ package com.shortybmc.data.parser
 			RecordsetDelimiter = value
 		}
 		
-		// -> public methods
+		/**
+		 *   TODO Setter description ...
+		 * 
+		 *   @param value Boolean
+		 *   @return no
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function set embededHeader( value : Boolean ) : void
+		{
+			EmbededHeader = value
+		}
+		
+		/**
+		 *   TODO Setter description ...
+		 * 
+		 *   @param value Boolean
+		 *   @return no
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function set headerOverwrite( value : Boolean ) : void
+		{
+			HeaderOverwrite = value
+		}
+		
+		/**
+		 *   TODO Setter description ...
+		 * 
+		 *   @param value Array
+		 *   @return no
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function set header( value : Array ) : void
+		{
+			if ( !embededHeader && !headerHasValues )
+				  Header = value
+			else if ( !embededHeader && headerHasValues && headerOverwrite )
+				 	   Header = value
+			else if (  headerOverwrite )
+				 	   Header = value
+		}
+		
+		
+		// -> Public methods
 		
 		/**
 		 *   TODO Public method description ...
+		 * 
+		 *   @deprecated yes
+		 *   @param no
+		 *   @return String that contais the dumped array
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function dump() : String
+		{
+			var  result : String = 'data:Array -> [\r'
+			for ( var i : int = 0; i < data.length; i++ )
+			{
+				result += '\t[' + i + ']:Array -> [\r'
+				for (var j : uint = 0; j < data[i].length; j++ ) result += '\t\t[' + j + ']:String -> ' + data[ i ][ j ] + '\r'
+				result += ( '\t]\r' )
+			}
+			result += ']\r'
+			return result
+		}
+		
+		
+		// -> private methods
+		
+		/**
+		 *   TODO Private method description ...
+		 * 
+		 *   @param element *
+		 *   @param index int
+		 *   @param arr Array
+		 *   @return Boolean true if recordset has values, false if not
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		private function isNotEmptyRecord( element : *, index : int, arr : Array ) : Boolean
+		{
+			return Boolean( StringUtils.trim( element ) );
+		}
+		
+		/**
+		 *   TODO Private method description ...
 		 * 
 		 *   @param no
 		 *   @return no
@@ -186,24 +348,12 @@ package com.shortybmc.data.parser
 			}
 			data = result.filter( isNotEmptyRecord )
 			data.forEach( fieldBuilder )
-		}
-		
-		// -> private methods
-		
-		/**
-		 *   TODO Private method description ...
-		 * 
-		 *   @param element *
-		 *   @param index int
-		 *   @param arr Array
-		 *   @return Boolean true if recordset has values, false if not
-		 *   
-		 *   @langversion ActionScript 3.0
-		 *   @tiptext
-		 */
-		private function isNotEmptyRecord( element : *, index : int, arr : Array ) : Boolean
-		{
-			return Boolean( StringUtils.trim( element ) );
+			if ( ( embededHeader && headerOverwrite ) )
+				   data.shift()
+			else if ( embededHeader && headerHasValues )
+				   data.shift()
+			else if ( embededHeader )
+				 	  Header = data.shift()
 		}
 		
 		/**
@@ -231,29 +381,6 @@ package com.shortybmc.data.parser
 				count += StringUtils.count( tmp[ i ] , fieldEnclosureToken );
 			}
 			arr[ index ] = result
-		}
-		
-		/**
-		 *   TODO Public method description ...
-		 * 
-		 *   @deprecated yes
-		 *   @param no
-		 *   @return String that contais the dumped array
-		 *   
-		 *   @langversion ActionScript 3.0
-		 *   @tiptext
-		 */
-		public function dump() : String
-		{
-			var  result : String = 'data:Array -> [\r'
-			for ( var i : int = 0; i < data.length; i++ )
-			{
-				result += '\t[' + i + ']:Array -> [\r'
-				for (var j : uint = 0; j < data[i].length; j++ ) result += '\t\t[' + j + ']:String -> ' + data[ i ][ j ] + '\r'
-				result += ( '\t]\r' )
-			}
-			result += ']\r'
-			return result
 		}
 		
 	}
