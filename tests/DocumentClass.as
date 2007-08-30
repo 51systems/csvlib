@@ -63,6 +63,24 @@
 			csv.load( new URLRequest('example-6.csv') )
 		}
 		
+		private function example7() : void
+		{
+			csv = new CSV();
+			csv.embededHeader = false
+			csv.header = ['label 1', 'label 2', 'label 3', 'label 4']
+			csv.addEventListener( Event.COMPLETE, completeHandler );
+			csv.load ( new URLRequest('example-8.csv') );
+		}
+		
+		private function example8() : void
+		{
+			csv = new CSV();
+			csv.headerOverwrite = true
+			csv.header = ['My Year', 'My Make', 'My Model']
+			csv.addEventListener( Event.COMPLETE, completeHandler );
+			csv.load ( new URLRequest('example-7.csv') );
+		}
+		
 		private function completeHandler ( event : Event )
 		{
 			trace ( csv.dump() )
