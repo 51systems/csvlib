@@ -13,7 +13,7 @@
 		
 		public function DocumentClass()
 		{
-			example10()
+			example9()
 		}
 		
 		private function example1() : void
@@ -132,7 +132,7 @@
 			
 			trace ( '-----------------' ) ;
 			
-			var filtered : Array = csv.search( ['1', 'k', 'k', '3'] )
+			var filtered : Array = csv.search( ['1', 'k', 'k', '3'], false )
 			trace( filtered.join('\n') )
 			
 			
