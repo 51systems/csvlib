@@ -50,6 +50,9 @@ package com.shortybmc.data.parser
 		private var EmbededHeader 		: Boolean
 		private var HeaderOverwrite 	: Boolean
 		
+		private var SortField			: *
+		private var SortSequence		: String
+		
 		
 		/**
 		 *   TODO Constructor description ...
@@ -283,26 +286,27 @@ package com.shortybmc.data.parser
 		// -> Public methods
 		
 		/**
-		 *   TODO Public method description ...
+		 *   TODO Private method description ...
 		 * 
-		 *   @deprecated yes
-		 *   @param no
-		 *   @return String that contais the dumped array
+		 *   @param fieldNameOrIndex *
+		 *   @param sequence String
+		 *   @return no
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
-		public function dump() : String
+		public function sort( fieldNameOrIndex : * = 0, sequence : String = 'ASC' ) : void
 		{
-			var  result : String = 'data:Array -> [\r'
-			for ( var i : int = 0; i < data.length; i++ )
-			{
-				result += '\t[' + i + ']:Array -> [\r'
-				for (var j : uint = 0; j < data[i].length; j++ ) result += '\t\t[' + j + ']:String -> ' + data[ i ][ j ] + '\r'
-				result += ( '\t]\r' )
+			if ( headerHasValues && header.indexOf( fieldNameOrIndex ) >=0 )
+				 SortField = header.indexOf( fieldNameOrIndex )
+			else
+				 SortField = fieldNameOrIndex
+			SortSequence = sequence
+			try {
+				data.sort ( sort2DArray )
+			} catch ( e : Error ) {
+				throw new Error ( e.toString() + "\n\tNothing to sort, data array is empty!" )
 			}
-			result += ']\r'
-			return result
 		}
 		
 		
@@ -347,8 +351,8 @@ package com.shortybmc.data.parser
 				count += StringUtils.count( data[ i ] , fieldEnclosureToken )
 			}
 			data = result.filter( isNotEmptyRecord )
-			data.forEach( fieldBuilder )
-			if ( ( embededHeader && headerOverwrite ) )
+			data.forEach( fieldDetection )
+			if ( embededHeader && headerOverwrite )
 				   data.shift()
 			else if ( embededHeader && headerHasValues )
 				   data.shift()
@@ -367,7 +371,7 @@ package com.shortybmc.data.parser
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
-		private function fieldBuilder( element : *, index : int, arr : Array ) : void
+		private function fieldDetection( element : *, index : int, arr : Array ) : void
 		{	
 			var count  : uint  = 0;
 			var result : Array = new Array ();
@@ -381,6 +385,63 @@ package com.shortybmc.data.parser
 				count += StringUtils.count( tmp[ i ] , fieldEnclosureToken );
 			}
 			arr[ index ] = result
+		}
+		
+		/**
+		 *   TODO Private method description ...
+		 * 
+		 *   @param a Array
+		 *   @param b Array
+		 *   @return Number
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		private function sort2DArray( a : Array, b : Array ) : Number
+		{
+			var n : int = 0
+			var r : int = SortSequence == 'ASC' ? -1 : 1;
+			if ( String( a[ SortField ] ) < String( b[ SortField ]) )
+				n = r
+			else if ( String( a[ SortField ] ) > String( b[ SortField ] ) )
+				n = -r
+			else
+				n = 0
+			return n;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 *   TODO Public method description ...
+		 * 
+		 *   @deprecated yes
+		 *   @param no
+		 *   @return String that contais the dumped array
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function dump() : String
+		{
+			var  result : String = 'data:Array -> [\r'
+			for ( var i : int = 0; i < data.length; i++ )
+			{
+				result += '\t[' + i + ']:Array -> [\r'
+				for (var j : uint = 0; j < data[i].length; j++ ) result += '\t\t[' + j + ']:String -> ' + data[ i ][ j ] + '\r'
+				result += ( '\t]\r' )
+			}
+			result += ']\r'
+			return result
 		}
 		
 	}
