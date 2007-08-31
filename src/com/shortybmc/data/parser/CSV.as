@@ -445,11 +445,11 @@ package com.shortybmc.data.parser
 		 */
 		public function sort( fieldNameOrIndex : * = 0, sequence : String = 'ASC' ) : void
 		{
+			SortSequence = sequence
 			if ( headerHasValues && header.indexOf( fieldNameOrIndex ) >=0 )
 				 SortField = header.indexOf( fieldNameOrIndex )
 			else
 				 SortField = fieldNameOrIndex
-			SortSequence = sequence
 			if ( dataHasValues )
 				 data.sort ( sort2DArray )
 		}
