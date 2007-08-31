@@ -315,22 +315,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Private method description ...
 		 * 
-		 *   @param element *
-		 *   @param index int
-		 *   @param arr Array
-		 *   @return Boolean true if recordset has values, false if not
-		 *   
-		 *   @langversion ActionScript 3.0
-		 *   @tiptext
-		 */
-		private function isNotEmptyRecord( element : *, index : int, arr : Array ) : Boolean
-		{
-			return Boolean( StringUtils.trim( element ) );
-		}
-		
-		/**
-		 *   TODO Private method description ...
-		 * 
 		 *   @param no
 		 *   @return no
 		 *   
@@ -385,6 +369,22 @@ package com.shortybmc.data.parser
 				count += StringUtils.count( tmp[ i ] , fieldEnclosureToken );
 			}
 			arr[ index ] = result
+		}
+		
+		/**
+		 *   TODO Private method description ...
+		 * 
+		 *   @param element *
+		 *   @param index int
+		 *   @param arr Array
+		 *   @return Boolean true if recordset has values, false if not
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		private function isNotEmptyRecord( element : *, index : int, arr : Array ) : Boolean
+		{
+			return Boolean( StringUtils.trim( element ) );
 		}
 		
 		/**
