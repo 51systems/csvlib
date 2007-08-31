@@ -426,7 +426,7 @@ package com.shortybmc.data.parser
 		 * 
 		 *   @deprecated yes
 		 *   @param no
-		 *   @return String that contais the dumped array
+		 *   @return String that contais the dumped data array
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
