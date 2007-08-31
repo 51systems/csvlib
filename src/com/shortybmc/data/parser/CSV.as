@@ -54,6 +54,7 @@ package com.shortybmc.data.parser
 		private var SortSequence		: String
 		
 		
+		
 		/**
 		 *   TODO Constructor description ...
 		 * 
@@ -82,7 +83,10 @@ package com.shortybmc.data.parser
 		}
 		
 		
+		
 		// -> getter
+		
+		
 		
 		/**
 		 *   TODO Getter description ...
@@ -98,6 +102,8 @@ package com.shortybmc.data.parser
 			return FieldSeperator
 		}
 		
+		
+		
 		/**
 		 *   TODO Getter description ...
 		 * 
@@ -111,6 +117,8 @@ package com.shortybmc.data.parser
 		{
 			return FieldEnclosureToken
 		}
+		
+		
 		
 		/**
 		 *   TODO Getter description ...
@@ -126,6 +134,8 @@ package com.shortybmc.data.parser
 			return RecordsetDelimiter
 		}
 		
+		
+		
 		/**
 		 *   TODO Getter description ...
 		 * 
@@ -139,6 +149,8 @@ package com.shortybmc.data.parser
 		{
 			return EmbededHeader
 		}
+		
+		
 		
 		/**
 		 *   TODO Getter description ...
@@ -154,10 +166,27 @@ package com.shortybmc.data.parser
 			return HeaderOverwrite
 		}
 		
+		
+		
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @deprecated yes
+		 *   @param no
+		 *   @return Array with current header
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function get header() : Array 
+		{
+			return Header
+		}
+		
+		
+		
+		/**
+		 *   TODO Getter description ...
+		 * 
 		 *   @param no
 		 *   @return Boolean true if header has values, false if not
 		 *   
@@ -176,22 +205,34 @@ package com.shortybmc.data.parser
 			}
 		}
 		
+		
+		
 		/**
 		 *   TODO Getter description ...
 		 * 
 		 *   @param no
-		 *   @return Array with current header
+		 *   @return Boolean true if header has values, false if not
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
-		public function get header() : Array 
+		public function get dataHasValues () : Boolean
 		{
-			return Header
+			var check : Boolean
+			try {
+				if ( data.length > 0 ) check = true
+			} catch ( e : Error ) {
+				check = false
+			} finally {
+				return check
+			}
 		}
 		
 		
+		
 		// -> setter
+		
+		
 		
 		/**
 		 *   TODO Setter description ...
@@ -207,6 +248,8 @@ package com.shortybmc.data.parser
 			FieldSeperator = value
 		}
 		
+		
+		
 		/**
 		 *   TODO Getter description ...
 		 * 
@@ -220,6 +263,8 @@ package com.shortybmc.data.parser
 		{
 			FieldEnclosureToken = value
 		}
+		
+		
 		
 		/**
 		 *   TODO Setter description ...
@@ -235,6 +280,8 @@ package com.shortybmc.data.parser
 			RecordsetDelimiter = value
 		}
 		
+		
+		
 		/**
 		 *   TODO Setter description ...
 		 * 
@@ -249,6 +296,8 @@ package com.shortybmc.data.parser
 			EmbededHeader = value
 		}
 		
+		
+		
 		/**
 		 *   TODO Setter description ...
 		 * 
@@ -262,6 +311,8 @@ package com.shortybmc.data.parser
 		{
 			HeaderOverwrite = value
 		}
+		
+		
 		
 		/**
 		 *   TODO Setter description ...
@@ -283,7 +334,104 @@ package com.shortybmc.data.parser
 		}
 		
 		
+		
 		// -> Public methods
+		
+		
+		
+		/**
+		 *   TODO Public method description ...
+		 * 
+		 *   @param index int
+		 *   @return Array
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function getRecordSet( index : int ) : Array
+		{
+			if ( dataHasValues )
+				 return data[ index ]
+			else
+				return null
+		}
+		
+		
+		
+		/**
+		 *   TODO Public method description ...
+		 * 
+		 *   @param recordset Array
+		 *   @param index *
+		 *   @return no
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function addRecordSet( recordset : Array, index : * = null ) : void
+		{
+			if ( !dataHasValues )
+				  data = new Array()
+			
+			if ( !index && index != 0 )
+				  data.push( recordset )
+			else
+				  data.splice( index, 0, recordset )
+		}
+		
+		
+		
+		/**
+		 *   TODO Public method description ...
+		 * 
+		 *   @param startIndex int
+		 *   @param endIndex int
+		 *   @return Boolean
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function deleteRecordSet ( startIndex : int, endIndex : int = 1 ) : Boolean
+		{
+			if ( dataHasValues && startIndex < data.length && endIndex > 0 )
+				 return data.splice( startIndex, endIndex )
+			else
+				 return false
+		}
+		
+		
+		
+		/**
+		 *   TODO Public method description ...
+		 * 
+		 *   @param needle *
+		 *   @return Array
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function search ( needle : *, removeDuplicates : Boolean = true ) : Array
+		{
+			var result : Array = new Array()
+			for each ( var i : Array in data ){
+				if ( needle is Array ){
+					 for each ( var j : String in needle )
+						 if ( i.indexOf( String( j ) ) >= 0 )
+							  result.push( i )}
+				else
+					if ( i.indexOf( String( needle ) ) >= 0 ){
+					 	 result.push( i )}}
+			if ( removeDuplicates && result.length > 2 )
+				 var k : int = result.length -1;
+				 while ( k-- ){
+					 var l : int = result.length;
+					 while ( --l > k )
+						if ( result[ k ] == result[ l ] )
+							 result.splice( l, 1 )}
+			return result
+		}
+		
+		
 		
 		/**
 		 *   TODO Private method description ...
@@ -302,15 +450,15 @@ package com.shortybmc.data.parser
 			else
 				 SortField = fieldNameOrIndex
 			SortSequence = sequence
-			try {
-				data.sort ( sort2DArray )
-			} catch ( e : Error ) {
-				throw new Error ( e.toString() + "\n\tNothing to sort, data array is empty!" )
-			}
+			if ( dataHasValues )
+				 data.sort ( sort2DArray )
 		}
 		
 		
+		
 		// -> private methods
+		
+		
 		
 		/**
 		 *   TODO Private method description ...
@@ -344,6 +492,8 @@ package com.shortybmc.data.parser
 				 	  Header = data.shift()
 		}
 		
+		
+		
 		/**
 		 *   TODO Private method description ...
 		 * 
@@ -371,21 +521,7 @@ package com.shortybmc.data.parser
 			arr[ index ] = result
 		}
 		
-		/**
-		 *   TODO Private method description ...
-		 * 
-		 *   @param element *
-		 *   @param index int
-		 *   @param arr Array
-		 *   @return Boolean true if recordset has values, false if not
-		 *   
-		 *   @langversion ActionScript 3.0
-		 *   @tiptext
-		 */
-		private function isNotEmptyRecord( element : *, index : int, arr : Array ) : Boolean
-		{
-			return Boolean( StringUtils.trim( element ) );
-		}
+		
 		
 		/**
 		 *   TODO Private method description ...
@@ -412,25 +548,28 @@ package com.shortybmc.data.parser
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		/**
-		 *   TODO Public method description ...
+		 *   TODO Private method description ...
 		 * 
-		 *   @deprecated yes
-		 *   @param no
-		 *   @return String that contais the dumped data array
+		 *   @param element *
+		 *   @param index int
+		 *   @param arr Array
+		 *   @return Boolean true if recordset has values, false if not
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
+		private function isNotEmptyRecord( element : *, index : int, arr : Array ) : Boolean
+		{
+			return Boolean( StringUtils.trim( element ) );
+		}
+		
+		
+		
+		// -> deprecated / helper methods, not inside final release
+		
+		
+		
 		public function dump() : String
 		{
 			var  result : String = 'data:Array -> [\r'
