@@ -13,7 +13,7 @@
 		
 		public function DocumentClass()
 		{
-			example9()
+			example10()
 		}
 		
 		private function example1() : void
@@ -89,11 +89,6 @@
 			csv.load ( new URLRequest('example-8.csv') );
 		}
 		
-		private function completeHandler ( event : Event )
-		{
-			trace ( csv.dump() )
-		}
-		
 		private function sortExample ( event : Event )
 		{
 			csv.sort( 0);
@@ -115,6 +110,38 @@
 			
 			csv.sort('friends', 'DES' );
 			trace (csv.data.join('\n'));
+		}
+		
+		private function example10() : void
+		{
+			csv = new CSV();
+			csv.embededHeader = false
+			csv.header = ['label 1', 'label 2', 'label 3', 'label 4' ]
+			csv.addRecordSet( ['1','b','c','k'] )
+			csv.addRecordSet( ['0','b','g','d'], -1 )
+			csv.addRecordSet( ['2','b','c','d'],  3 )
+			csv.addRecordSet( ['3','b','j','d'] )
+			
+			trace ( csv.header );
+			trace ( csv.data.join('\n') );
+			
+			trace ( '-----------------' ) ;
+			
+			csv.deleteRecordSet( 0 )
+			trace ( csv.data.join('\n') );
+			
+			trace ( '-----------------' ) ;
+			
+			var filtered : Array = csv.search( ['1', 'k', 'k', '3'] )
+			trace( filtered.join('\n') )
+			
+			
+		}
+		
+		
+		private function completeHandler ( event : Event )
+		{
+			trace ( csv.dump() )
 		}
 		
 	}
