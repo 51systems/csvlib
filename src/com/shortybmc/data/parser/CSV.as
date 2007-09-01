@@ -18,30 +18,22 @@
 package com.shortybmc.data.parser
 {
 	
+	import flash.net.*
+	import flash.events.*
+	import com.shortybmc.utils.*;
 	
 	/**
 	 *   TODO Package description ...
 	 * 
 	 *   @author Marco Müller / http://shorty-bmc.com
-	 *   @see RFC 4180 / http://rfc.net/rfc4180.html
-	 *   
+	 *   @see http://rfc.net/rfc4180.html RFC4180
 	 *   @langversion ActionScript 3.0
 	 *   @tiptext
 	 */
-	import flash.net.*
-	import flash.events.*
-	import com.shortybmc.utils.*;
-	
 	public class CSV extends URLLoader
 	{
 		
 		
-		/**
-		 *   TODO Properties description ...
-		 *   
-		 *   @langversion ActionScript 3.0
-		 *   @tiptext
-		 */
 		private var FieldSeperator		: String
 		private var FieldEnclosureToken : String
 		private var RecordsetDelimiter	: String
@@ -54,13 +46,10 @@ package com.shortybmc.data.parser
 		private var SortSequence		: String
 		
 		
-		
 		/**
 		 *   TODO Constructor description ...
 		 * 
 		 *   @param request URLRequest
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -91,9 +80,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return String that contains the field seperator
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -107,9 +93,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return String that contains the field seperator
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -123,9 +106,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return String that contains the recordset delimiter
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -139,9 +119,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return Boolean with embeded header state
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -155,9 +132,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return Boolean with header overwrite state
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -171,9 +145,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return Array with current header
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -187,9 +158,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return Boolean true if header has values, false if not
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -210,9 +178,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return Boolean true if header has values, false if not
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -237,9 +202,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Setter description ...
 		 * 
-		 *   @param value String
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -253,9 +215,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Getter description ...
 		 * 
-		 *   @param no
-		 *   @return String that contains the field seperator
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -269,9 +228,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Setter description ...
 		 * 
-		 *   @param value String
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -285,9 +241,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Setter description ...
 		 * 
-		 *   @param value Boolean
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -301,9 +254,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Setter description ...
 		 * 
-		 *   @param value Boolean
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -317,9 +267,6 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Setter description ...
 		 * 
-		 *   @param value Array
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -404,7 +351,7 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Public method description ...
 		 * 
-		 *   @param needle *
+		 *   @param needle String or Array
 		 *   @return Array
 		 *   
 		 *   @langversion ActionScript 3.0

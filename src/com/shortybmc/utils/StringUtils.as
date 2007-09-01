@@ -1,8 +1,6 @@
 ﻿package com.shortybmc.utils
 {
-
-
-
+	
 	public class StringUtils
 	{
 
