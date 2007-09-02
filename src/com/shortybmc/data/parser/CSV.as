@@ -403,10 +403,6 @@ package com.shortybmc.data.parser
 		
 		
 		
-		// -> private methods
-		
-		
-		
 		/**
 		 *   TODO Private method description ...
 		 * 
@@ -416,7 +412,7 @@ package com.shortybmc.data.parser
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
-		private function decode( event : Event = null ) : void
+		public function decode( event : Event = null ) : void
 		{
 			var count  : uint = 0
 			var result : Array = new Array ()
@@ -438,6 +434,10 @@ package com.shortybmc.data.parser
 			else if ( embededHeader )
 				 	  Header = data.shift()
 		}
+		
+		
+		
+		// -> private methods
 		
 		
 		
