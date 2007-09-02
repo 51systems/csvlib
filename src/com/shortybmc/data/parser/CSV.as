@@ -414,10 +414,10 @@ package com.shortybmc.data.parser
 		 */
 		public function decode( raw : String = null, event : Event = null ) : void
 		{
-			var count  : uint = 0
-			var result : Array = new Array ()
 			if ( raw )
 				 data = raw
+			var count  : uint = 0
+			var result : Array = new Array ()		 
 			data = data.toString().split( recordsetDelimiter );
 			for(  var i : uint = 0; i < data.length; i++ )
 			{
