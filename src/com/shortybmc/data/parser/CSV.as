@@ -406,8 +406,8 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Public method description ...
 		 * 
-		 *   @param raw String
-		 *   @return no
+		 *   @param raw The sting to decode
+		 *   @param event Never set this, its only for internal use
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
@@ -439,9 +439,6 @@ package com.shortybmc.data.parser
 		
 		/**
 		 *   TODO Public method description ...
-		 * 
-		 *   @param no
-		 *   @return no
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
