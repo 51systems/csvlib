@@ -406,16 +406,18 @@ package com.shortybmc.data.parser
 		/**
 		 *   TODO Public method description ...
 		 * 
-		 *   @param no
+		 *   @param raw String
 		 *   @return no
 		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
-		public function decode( event : Event = null ) : void
+		public function decode( raw : String = null, event : Event = null ) : void
 		{
 			var count  : uint = 0
 			var result : Array = new Array ()
+			if ( raw )
+				 data = raw
 			data = data.toString().split( recordsetDelimiter );
 			for(  var i : uint = 0; i < data.length; i++ )
 			{
@@ -433,6 +435,29 @@ package com.shortybmc.data.parser
 				   data.shift()
 			else if ( embededHeader )
 				 	  Header = data.shift()
+		}
+		
+		/**
+		 *   TODO Public method description ...
+		 * 
+		 *   @param no
+		 *   @return no
+		 *   
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
+		public function encode () : void
+		{
+			var result : String = ''
+			if ( headerHasValues && header.length > 0 )
+			{
+				 embededHeader = true
+				 result += header.join( fieldSeperator ) + recordsetDelimiter
+			}
+			if ( dataHasValues )
+				 for each ( var recordset : Array in data )
+					 result += recordset.join( fieldSeperator ) + recordsetDelimiter
+			data = result
 		}
 		
 		
