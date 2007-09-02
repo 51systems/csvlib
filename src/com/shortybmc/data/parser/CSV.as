@@ -404,7 +404,7 @@ package com.shortybmc.data.parser
 		
 		
 		/**
-		 *   TODO Private method description ...
+		 *   TODO Public method description ...
 		 * 
 		 *   @param no
 		 *   @return no
