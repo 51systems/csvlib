@@ -13,7 +13,7 @@
 		
 		public function DocumentClass()
 		{
-			example9()
+			example10()
 		}
 		
 		private function example1() : void

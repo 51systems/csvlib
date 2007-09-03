@@ -20,7 +20,6 @@ package com.shortybmc.data.parser
 	
 	import flash.net.*
 	import flash.events.*
-	import flash.xml.*
 	import com.shortybmc.utils.*;
 	
 	/**
