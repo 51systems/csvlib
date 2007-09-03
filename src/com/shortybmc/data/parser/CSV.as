@@ -20,6 +20,7 @@ package com.shortybmc.data.parser
 	
 	import flash.net.*
 	import flash.events.*
+	import flash.xml.*
 	import com.shortybmc.utils.*;
 	
 	/**
@@ -272,12 +273,9 @@ package com.shortybmc.data.parser
 		 */
 		public function set header( value : Array ) : void
 		{
-			if ( !embededHeader && !headerHasValues )
-				  Header = value
-			else if ( !embededHeader && headerHasValues && headerOverwrite )
-				 	   Header = value
-			else if (  headerOverwrite )
-				 	   Header = value
+			if ( (!embededHeader && !headerHasValues) ||
+				 (!embededHeader && headerHasValues && headerOverwrite) || headerOverwrite )
+				   Header = value
 		}
 		
 		
@@ -412,10 +410,8 @@ package com.shortybmc.data.parser
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
-		public function decode( raw : String = null, event : Event = null ) : void
+		public function decode( event : Event = null ) : void
 		{
-			if ( raw )
-				 data = raw
 			var count  : uint = 0
 			var result : Array = new Array ()		 
 			data = data.toString().split( recordsetDelimiter );
@@ -427,15 +423,18 @@ package com.shortybmc.data.parser
 					 result[ result.length - 1 ] += data[ i ]
 				count += StringUtils.count( data[ i ] , fieldEnclosureToken )
 			}
-			data = result.filter( isNotEmptyRecord )
-			data.forEach( fieldDetection )
+			result = result.filter( isNotEmptyRecord )
+			result.forEach( fieldDetection )
 			if ( embededHeader && headerOverwrite )
-				   data.shift()
+				   result.shift()
 			else if ( embededHeader && headerHasValues )
-				   data.shift()
+				   result.shift()
 			else if ( embededHeader )
-				 	  Header = data.shift()
+				 	  Header = result.shift()
+			data = result
 		}
+		
+		
 		
 		/**
 		 *   TODO Public method description ...
@@ -449,11 +448,11 @@ package com.shortybmc.data.parser
 			if ( headerHasValues && header.length > 0 )
 			{
 				 embededHeader = true
-				 result += header.join( fieldSeperator ) + recordsetDelimiter
+				 data.unshift( header )
 			}
 			if ( dataHasValues )
 				 for each ( var recordset : Array in data )
-					 result += recordset.join( fieldSeperator ) + recordsetDelimiter
+				 	 result += recordset.join( fieldSeperator ) + recordsetDelimiter
 			data = result
 		}
 		
