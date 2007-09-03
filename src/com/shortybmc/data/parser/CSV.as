@@ -18,15 +18,20 @@
 package com.shortybmc.data.parser
 {
 	
+	
+	
 	import flash.net.*
 	import flash.events.*
 	import com.shortybmc.utils.*;
+	
+	
 	
 	/**
 	 *   TODO Package description ...
 	 * 
 	 *   @author Marco Müller / http://shorty-bmc.com
 	 *   @see http://rfc.net/rfc4180.html RFC4180
+	 * 	 @see http://csvlib.googlecode.com csvlib
 	 *   @langversion ActionScript 3.0
 	 *   @tiptext
 	 */
@@ -44,6 +49,7 @@ package com.shortybmc.data.parser
 		
 		private var SortField			: *
 		private var SortSequence		: String
+		
 		
 		
 		/**
@@ -288,7 +294,6 @@ package com.shortybmc.data.parser
 		 * 
 		 *   @param index int
 		 *   @return Array
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -307,8 +312,6 @@ package com.shortybmc.data.parser
 		 * 
 		 *   @param recordset Array
 		 *   @param index *
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -331,7 +334,6 @@ package com.shortybmc.data.parser
 		 *   @param startIndex int
 		 *   @param endIndex int
 		 *   @return Boolean
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -350,7 +352,6 @@ package com.shortybmc.data.parser
 		 * 
 		 *   @param needle String or Array
 		 *   @return Array
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -382,8 +383,6 @@ package com.shortybmc.data.parser
 		 * 
 		 *   @param fieldNameOrIndex *
 		 *   @param sequence String
-		 *   @return no
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -405,16 +404,15 @@ package com.shortybmc.data.parser
 		 * 
 		 *   @param raw The sting to decode
 		 *   @param event Never set this, its only for internal use
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
 		public function decode( event : Event = null ) : void
 		{
-			var count  : uint = 0
+			var count  : int = 0
 			var result : Array = new Array ()		 
 			data = data.toString().split( recordsetDelimiter );
-			for(  var i : uint = 0; i < data.length; i++ )
+			for(  var i : int = 0; i < data.length; i++ )
 			{
 				if( !Boolean( count % 2 ) )
 					 result.push( data[ i ] )
@@ -424,9 +422,7 @@ package com.shortybmc.data.parser
 			}
 			result = result.filter( isNotEmptyRecord )
 			result.forEach( fieldDetection )
-			if ( embededHeader && headerOverwrite )
-				   result.shift()
-			else if ( embededHeader && headerHasValues )
+			if ( ( embededHeader && headerOverwrite ) || ( embededHeader && headerHasValues ) )
 				   result.shift()
 			else if ( embededHeader )
 				 	  Header = result.shift()
@@ -468,7 +464,6 @@ package com.shortybmc.data.parser
 		 *   @param index int
 		 *   @param arr Array
 		 *   @return Boolean true if recordset has values, false if not
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -496,7 +491,6 @@ package com.shortybmc.data.parser
 		 *   @param a Array
 		 *   @param b Array
 		 *   @return Number
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -522,7 +516,6 @@ package com.shortybmc.data.parser
 		 *   @param index int
 		 *   @param arr Array
 		 *   @return Boolean true if recordset has values, false if not
-		 *   
 		 *   @langversion ActionScript 3.0
 		 *   @tiptext
 		 */
@@ -533,10 +526,17 @@ package com.shortybmc.data.parser
 		
 		
 		
-		// -> deprecated / helper methods, not inside final release
+		// -> deprecated
 		
 		
 		
+		/**
+		 *   TODO Private method description ...
+		 * 
+		 *   @deprecated yes
+		 *   @langversion ActionScript 3.0
+		 *   @tiptext
+		 */
 		public function dump() : String
 		{
 			var  result : String = 'data:Array -> [\r'
