@@ -447,7 +447,7 @@ package com.shortybmc.data.parser
 			}
 			if ( dataHasValues )
 				 for each ( var recordset : Array in data )
-				 	 result += recordset.join( fieldSeperator ) + recordsetDelimiter
+				 	 result += formatCsvLine(recordset, fieldSeperator, fieldEnclosureToken, recordsetDelimiter) + recordsetDelimiter;
 			data = result
 		}
 		
@@ -455,7 +455,31 @@ package com.shortybmc.data.parser
 		
 		// -> private methods
 		
-		
+		/**
+		 * Properly formats files containing field or line delimiters.
+		 * 
+		 * @see http://code.google.com/p/csvlib/wiki/QuickStart
+		 * @author merandika@gmail.com
+		 * @param line recordset array for the current line
+		 * @param delimiter field delimiter
+		 * @param enclosure field enclosure token (used when field contents contains field delimiter)
+		 * @param linefeed delimiter to separate records
+		 * @return a formatted string representation for a single line in the csv file
+		 * 
+		 */
+		private function formatCsvLine(line:Array, delimiter:String = ",", enclosure:String = "\"", linefeed:String = "\n"):String{
+			var aux:Array = new Array();
+			var regEx:RegExp = new RegExp(enclosure, "g");
+			for each (var value:String in line){
+				if(value == null) // Null values must be reformated as empty string to avoid Runtime errors
+					value = "";
+				if(value.indexOf(delimiter) >= 0 || value.indexOf(enclosure) >= 0 || value.indexOf(linefeed) >= 0 || value.indexOf("\n") >= 0)
+					value = enclosure + value.replace(regEx, enclosure + enclosure) + enclosure;
+				
+				aux.push(value);
+			}
+			return aux.join(delimiter);
+		}
 		
 		/**
 		 *   TODO Private method description ...
